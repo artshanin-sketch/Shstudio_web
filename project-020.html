@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Цветы Башкирии — Shanin Studio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+     <!-- Стили -->
+    <link rel="stylesheet" href="asseets\css\project-full.css">
+
+</head>
+<body>
+
+    <!-- 1. ФОН -->
+    <div class="background-container">
+        <img src="projects/20/img/fon.jpg" class="bg-image" id="preloaderImg" alt="Loading...">
+        <video class="bg-video" autoplay muted loop playsinline>
+            <source src="projects/20/video/video20.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <!-- 2. ЛЕВАЯ ПАНЕЛЬ -->
+    <div class="glass-sidebar" id="sidebar">
+        
+        <a href="javascript:history.back()" class="back-btn">
+            <span class="back-icon">←</span> <span class="back-text">НАЗАД</span>
+        </a>
+
+        <a href="index.html" class="logo">
+            <div class="logo-main">SHANIN</div><span>STUDIO</span>
+        </a>
+
+        <div class="content">
+            <div class="date">01.12.2025</div>
+            <h1>Цветы<br>Башкирии</h1>
+            <div class="subtitle">Презентационный видеоролик</div>
+            <div class="list-block">В рамках проекта реализовано:<ul><li>3D-модель и визуализации</li><li>3D-анимация</li><li>Сценарий, продакшн, монтаж ролика</li></ul></div>
+            <div class="slogan">ГДЕ ГОРОД ВСТРЕЧАЕТСЯ С ПРИРОДОЙ</div>
+            <div class="description">Гармония современной архитектуры и живой природы.<br><br> Уютные кварталы средней этажности, утопающие в зелени дворов-парков, создают атмосферу спокойствия в черте города.<br><br>Место, где эстетика, безопасность и чистый воздух становятся частью вашей повседневной жизни.</div>
+            <div class="buttons-row">
+                <div class="action-btn" id="openGalleryBtn">Галерея</div>
+                <div class="action-btn" id="openVideoBtn">Видео</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. ВИДЕО МОДАЛКА -->
+    <div id="videoModal" class="video-modal">
+        <div class="video-close" id="videoClose">✕</div>
+        <div class="video-container">
+            <iframe 
+                id="rutubePlayer" 
+                src="https://rutube.ru/play/embed/0b61d97d214b5878e4411de673f87e33/" 
+                allow="clipboard-write; autoplay; fullscreen" 
+                allowfullscreen
+                webkitallowfullscreen
+                mozallowfullscreen>
+            </iframe>
+        </div>
+    </div>
+
+    <!-- 4. ГАЛЕРЕЯ -->
+    <div id="galleryModal" class="gallery-modal">
+        <div class="gallery-close" id="galleryClose">✕</div>
+        
+        <div class="gallery-controls">
+            <!-- СЕЗОН -->
+            <div class="toggle-switch" id="seasonToggle">
+                <div class="toggle-bg bg-summer"></div>
+                <div class="toggle-circle"></div>
+                <div class="icon-box left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20M12 2C6.5 2 2 6.5 2 12M12 2c5.5 0 10 4.5 10 10"/></svg></div>
+                <div class="icon-box right"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20"/><path d="M12 2v20"/><path d="m20 20-8-8"/><path d="m4 4 8 8"/><path d="m4 20 8-8"/><path d="m20 4-8 8"/></svg></div>
+            </div>
+            <!-- ВРЕМЯ -->
+            <div class="toggle-switch" id="timeToggle">
+                <div class="toggle-bg bg-day"></div>
+                <div class="toggle-circle"></div>
+                <div class="icon-box left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></div>
+                <div class="icon-box right"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div>
+            </div>
+        </div>
+
+        <div class="gallery-viewport">
+            <div class="nav-arrow prev" id="prevBtn"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></div>
+            
+            <div class="image-stack">
+                <img src="" alt="" class="gallery-image" id="imgA">
+                <img src="" alt="" class="gallery-image" id="imgB">
+            </div>
+            
+            <div class="loader" id="galleryLoader"></div>
+            <div class="nav-arrow next" id="nextBtn"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></div>
+        </div>
+    </div>
+
+       <!-- СКРИПТ -->
+    <script src="asseets\js\project-full.js"></script>
+
+</body>
+</html>

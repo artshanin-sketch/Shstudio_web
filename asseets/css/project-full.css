@@ -1,0 +1,529 @@
+ /* --- 1. БАЗА --- */
+        html, body {
+            margin: 0; padding: 0;
+            background-color: #111;
+            font-family: 'Manrope', sans-serif;
+            color: white;
+            height: 100%;
+            overflow: hidden; 
+        }
+
+        /* --- 2. ФОН --- */
+        .background-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;
+        }
+        .bg-video { width: 100%; height: 100%; object-fit: cover; }
+        .bg-image {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; z-index: 1; opacity: 1;
+            transition: opacity 2.0s ease-in-out; 
+        }
+        .bg-image.hidden { opacity: 0; pointer-events: none; }
+
+        /* --- 3. ЛЕВАЯ ПАНЕЛЬ --- */
+        .glass-sidebar {
+            position: absolute; top: 0; left: 0; width: 45%; height: 100%; z-index: 10;
+            background: rgba(0, 0, 0, 0.4); 
+            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            padding: 60px; box-sizing: border-box;
+            display: flex; flex-direction: column; overflow-y: auto; 
+        }
+        .glass-sidebar::-webkit-scrollbar { width: 6px; }
+        .glass-sidebar::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.1); }
+        .glass-sidebar::-webkit-scrollbar-thumb { background-color: #FF5E00; border-radius: 4px; }
+
+        /* Элементы панели (без изменений) */
+        .back-btn {
+            position: absolute; top: 40px; right: 40px; z-index: 20;
+            display: flex; align-items: center; justify-content: center; gap: 12px; 
+            padding: 12px 28px; border-radius: 50px;
+            text-decoration: none; color: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255,255,255,0.3); background: rgba(0,0,0,0.2);
+            transition: 0.3s all ease; cursor: pointer;
+        }
+        .back-text { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        .back-icon { font-size: 1.2rem; line-height: 1; position: relative; top: -1px; }
+        .back-btn:hover { background: #FF5E00; border-color: #FF5E00; color: white; }
+
+        .logo { text-decoration: none; color: white; display: block; margin-bottom: 60px; margin-top: 10px; }
+        .logo-main { font-size: 3.5rem; font-weight: 800; line-height: 0.8; text-transform: uppercase; margin-left: -3px; }
+        .logo span { display: block; font-size: 1rem; font-weight: 400; letter-spacing: 16px; margin-top: 10px; margin-left: 4px; color: rgba(255,255,255,0.65); }
+
+        .date { font-size: 0.9rem; color: rgba(255,255,255,0.6); margin-bottom: 20px; letter-spacing: 1px; }
+        h1 { font-size: 3rem; font-weight: 600; line-height: 1.1; margin: 0 0 20px 0; text-transform: uppercase; }
+        .subtitle { font-size: 1.1rem; color: rgba(255,255,255,0.8); margin-bottom: 40px; }
+        .list-block { margin-bottom: 50px; font-size: 0.95rem; line-height: 1.8; color: rgba(255,255,255,0.9); }
+        .slogan { font-size: 1rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; color: #FF5E00; }
+        .description { font-size: 0.95rem; line-height: 1.6; color: rgba(255,255,255,0.8); margin-bottom: 60px; max-width: 95%; }
+
+        .buttons-row { display: flex; gap: 15px; margin-top: auto; padding-bottom: 20px; }
+        .action-btn {
+            padding: 12px 35px; border-radius: 50px;
+            text-decoration: none; font-size: 0.9rem; font-weight: 600; text-transform: uppercase;
+            transition: 0.3s; cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.3); background: rgba(0,0,0,0.3); color: white;
+        }
+        .action-btn:hover { background: #FF5E00; color: white; border-color: #FF5E00; }
+
+
+        /* --- 4. ВИДЕО МОДАЛКА --- */
+        .video-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.98); z-index: 3000;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
+        }
+        .video-modal.active { opacity: 1; pointer-events: auto; }
+
+        .video-close {
+            position: absolute; top: 40px; right: 40px;
+            width: 50px; height: 50px; border-radius: 50%;
+            background: rgba(255,255,255,0.1); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white; font-size: 1.5rem; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: 0.3s; 
+            z-index: 3010;
+        }
+        .video-close:hover { background: #FF5E00; border-color: #FF5E00; transform: rotate(90deg); }
+
+        .video-container {
+            width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .video-container iframe {
+            width: 80%; height: 80%;
+            max-width: 1280px;
+            max-height: 720px;
+            border-radius: 8px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+            border: none;
+        }
+
+
+        /* --- 5. ГАЛЕРЕЯ (MODAL) --- */
+        .gallery-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.98); z-index: 3000;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
+        }
+        .gallery-modal.active { opacity: 1; pointer-events: auto; }
+
+        /* Кнопка Закрыть (ПРАВЫЙ ВЕРХНИЙ) */
+        .gallery-close {
+            position: absolute; top: 40px; right: 40px;
+            width: 50px; height: 50px; border-radius: 50%;
+            background: rgba(255,255,255,0.1); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white; font-size: 1.5rem; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: 0.3s; 
+            z-index: 3010;
+        }
+        .gallery-close:hover { background: #FF5E00; border-color: #FF5E00; transform: rotate(90deg); }
+
+        /* КОНТРОЛЛЕРЫ (ЦЕНТР - ПО УМОЛЧАНИЮ) */
+        .gallery-controls {
+            position: absolute; top: 40px; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 30px; z-index: 3002;
+        }
+
+        .toggle-switch {
+            width: 110px; height: 50px; border-radius: 50px;
+            position: relative; cursor: pointer; overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.2); transition: transform 0.2s;
+        }
+        .toggle-bg { width: 100%; height: 100%; position: absolute; top: 0; left: 0; transition: background 0.4s ease; }
+        .bg-day { background: #d4bda5; } .bg-night { background: #2c3e50; }
+        .bg-summer { background: #557c55; } .bg-winter { background: #89a9c2; }
+        .toggle-circle {
+            width: 44px; height: 44px; background: white; border-radius: 50%;
+            position: absolute; top: 2px; left: 3px;
+            transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+            z-index: 2; box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        .toggle-switch.active .toggle-circle { transform: translateX(58px); }
+
+        .icon-box {
+            position: absolute; top: 0; height: 100%; width: 50%;
+            display: flex; align-items: center; justify-content: center;
+            z-index: 1; pointer-events: none; opacity: 0.7; transition: opacity 0.3s;
+        }
+        .toggle-switch.active .icon-box { opacity: 1; }
+        .icon-box.left { left: 0; color: #333; } .icon-box.right { right: 0; color: white; }
+        .icon-box svg { width: 22px; height: 22px; }
+
+
+        /* --- ОБЛАСТЬ ПРОСМОТРА --- */
+        .gallery-viewport {
+            width: 85%; height: 80%; 
+            position: relative;
+            display: flex; align-items: center; justify-content: center;
+            z-index: 3001;
+        }
+
+        .image-stack {
+            position: relative; width: 80%; height: 80%;
+            display: flex; justify-content: center; align-items: center;
+        }
+
+        .gallery-image {
+            position: absolute; max-width: 100%; max-height: 100%;
+            object-fit: contain; border-radius: 4px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+            opacity: 0;
+            transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), filter 0.6s ease;
+            z-index: 1; will-change: transform, opacity;
+        }
+
+        .gallery-image.visible {
+            opacity: 1; z-index: 10; transform: translate(0, 0) scale(1); filter: blur(0);
+        }
+
+        /* Стрелки */
+        .nav-arrow {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            width: 60px; height: 60px; border-radius: 50%;
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(5px);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.3s; 
+            z-index: 4000;
+            color: white;
+        }
+        .nav-arrow:hover { background: #FF5E00; border-color: #FF5E00; transform: translateY(-50%) scale(1.1); }
+        .nav-arrow svg { width: 32px; height: 32px; stroke-width: 2; }
+        .nav-arrow.prev { left: 40px; }
+        .nav-arrow.next { right: 40px; }
+
+        /* Анимации для перехода */
+        .gallery-image.slide-left {
+            transform: translateX(-100px) scale(0.9);
+            opacity: 0;
+            filter: blur(5px);
+        }
+        
+        .gallery-image.slide-right {
+            transform: translateX(100px) scale(0.9);
+            opacity: 0;
+            filter: blur(5px);
+        }
+        
+        .gallery-image.blur {
+            filter: blur(10px);
+            opacity: 0;
+        }
+
+        .loader {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid #FF5E00;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+
+        /* --- АДАПТАЦИЯ ДЛЯ СОВРЕМЕННЫХ МОБИЛЬНЫХ УСТРОЙСТВ --- */
+
+        /* Для всех мобильных устройств */
+        @media (max-width: 932px) {
+            /* 1. ПАНЕЛЬ */
+            .glass-sidebar { 
+                width: 100%; 
+                padding: 40px 20px; 
+                backdrop-filter: blur(15px);
+            }
+            
+            /* 2. Общие стили для мобильных */
+            .gallery-viewport { 
+                width: 95%; 
+                height: 70vh;
+            }
+            
+            /* 3. Стрелки (уменьшаем размер и отступы) */
+            .nav-arrow {
+                width: 45px;
+                height: 45px;
+                background: rgba(0,0,0,0.7);
+                border: 1px solid rgba(255,255,255,0.2);
+                backdrop-filter: blur(10px);
+            }
+            
+            .nav-arrow.prev { left: 15px; }
+            .nav-arrow.next { right: 15px; }
+            
+            /* 4. Кнопка закрытия (уменьшаем размер) */
+            .gallery-close {
+                width: 45px;
+                height: 45px;
+                top: 25px;
+                right: 20px;
+                z-index: 4010;
+            }
+            
+            /* 5. Кнопка закрытия видео (уменьшаем размер) */
+            .video-close {
+                width: 45px;
+                height: 45px;
+                top: 25px;
+                right: 20px;
+                z-index: 4010;
+            }
+            
+            /* 6. Переключатели (общие стили для мобильных) */
+            .toggle-switch {
+                width: 100px;
+                height: 45px;
+            }
+            
+            .toggle-circle {
+                width: 40px;
+                height: 40px;
+                top: 2px;
+                left: 3px;
+            }
+            
+            .toggle-switch.active .toggle-circle { 
+                transform: translateX(52px); 
+            }
+            
+            /* 7. Уменьшаем иконки */
+            .icon-box svg { 
+                width: 20px; 
+                height: 20px; 
+            }
+            
+            /* 8. Адаптация видео-контейнера */
+            .video-container iframe {
+                width: 95%;
+                height: 60%;
+                max-height: 400px;
+            }
+        }
+
+        /* --- ВЕРТИКАЛЬНАЯ ОРИЕНТАЦИЯ (PORTRAIT) 430x932 для iPhone 14 Pro Max --- */
+        @media (max-width: 932px) and (orientation: portrait) {
+            /* Кнопки времени/сезона остаются по центру */
+            .gallery-controls { 
+                position: absolute;
+                top: 30px;
+                left: 50%;
+                transform: translateX(-50%);
+                flex-direction: row;
+                gap: 20px;
+                z-index: 3002;
+                scale: 0.9;
+            }
+            
+            /* Область просмотра */
+            .gallery-viewport {
+                height: 65vh;
+                margin-top: 110px;
+            }
+            
+            /* Адаптация для очень высоких экранов */
+            @media (min-height: 800px) {
+                .gallery-viewport {
+                    height: 70vh;
+                    margin-top: 120px;
+                }
+            }
+        }
+
+        /* --- ГОРИЗОНТАЛЬНАЯ ОРИЕНТАЦИЯ (LANDSCAPE) 932x430 для iPhone 14 Pro Max --- */
+        @media (max-width: 932px) and (orientation: landscape) {
+            /* 1. Кнопки времени/сезона в левом верхнем углу */
+            .gallery-controls { 
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                transform: none !important;
+                flex-direction: row;
+                gap: 15px;
+                z-index: 3010;
+                scale: 0.85;
+                margin: 0;
+                padding: 0;
+            }
+            
+            /* 2. Кнопка закрытия галереи (правее) */
+            .gallery-close {
+                top: 20px;
+                right: 20px;
+                width: 40px;
+                height: 40px;
+            }
+            
+            /* 3. Кнопка закрытия видео (правее) */
+            .video-close {
+                top: 20px;
+                right: 20px;
+                width: 40px;
+                height: 40px;
+            }
+            
+            /* 4. Стрелки (ближе к краям, но не заезжают на изображение) */
+            .nav-arrow {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .nav-arrow.prev { 
+                left: 10px;
+                right: auto;
+            }
+            
+            .nav-arrow.next { 
+                right: 10px;
+                left: auto;
+            }
+            
+            /* 5. Область просмотра с учётом кнопок */
+            .gallery-viewport {
+                height: 75vh;
+                margin-top: 80px;
+                margin-left: 0;
+                margin-right: 0;
+                width: 92%;
+            }
+            
+            /* 6. Видео-контейнер в ландшафтной ориентации */
+            .video-container iframe {
+                width: 95%;
+                height: 80%;
+                max-height: 80vh;
+            }
+            
+            /* 7. Левая панель в горизонтальной ориентации - уже */
+            .glass-sidebar {
+                width: 45%;
+                padding: 25px;
+                backdrop-filter: blur(20px);
+            }
+            
+            /* 8. Уменьшаем шрифты для экономии места */
+            .logo-main { font-size: 2.5rem; }
+            h1 { font-size: 2rem; line-height: 1.1; }
+            .subtitle { font-size: 0.9rem; }
+            .description { 
+                font-size: 0.8rem; 
+                line-height: 1.5;
+                margin-bottom: 40px;
+            }
+            .back-btn { 
+                padding: 10px 20px; 
+                top: 25px;
+                right: 25px;
+            }
+            .action-btn { 
+                padding: 10px 20px; 
+                font-size: 0.8rem;
+            }
+            
+            /* 9. Убедимся, что изображение не заезжает под кнопки */
+            .image-stack {
+                width: 85%;
+                height: 85%;
+                margin: 0 auto;
+            }
+        }
+
+        /* --- АДАПТАЦИЯ ДЛЯ ОЧЕНЬ МАЛЕНЬКИХ ЭКРАНОВ --- */
+        @media (max-width: 932px) and (max-height: 450px) {
+            .gallery-controls {
+                scale: 0.75;
+                top: 15px;
+                left: 15px;
+                gap: 10px;
+            }
+            
+            .gallery-close {
+                width: 35px;
+                height: 35px;
+                top: 15px;
+                right: 15px;
+                font-size: 1.2rem;
+            }
+            
+            .video-close {
+                width: 35px;
+                height: 35px;
+                top: 15px;
+                right: 15px;
+                font-size: 1.2rem;
+            }
+            
+            .nav-arrow {
+                width: 35px;
+                height: 35px;
+            }
+            
+            .nav-arrow.prev { left: 8px; }
+            .nav-arrow.next { right: 8px; }
+            
+            .gallery-viewport {
+                height: calc(100vh - 90px);
+                margin-top: 70px;
+            }
+            
+            .video-container iframe {
+                height: 85vh;
+                max-height: 85vh;
+            }
+            
+            /* Ещё меньше переключатели */
+            .toggle-switch {
+                width: 90px;
+                height: 40px;
+            }
+            
+            .toggle-circle {
+                width: 36px;
+                height: 36px;
+            }
+            
+            .toggle-switch.active .toggle-circle { 
+                transform: translateX(48px); 
+            }
+        }
+
+        /* --- АДАПТАЦИЯ ДЛЯ БОЛЬШИХ ТЕЛЕФОНОВ В ГОРИЗОНТАЛЬНОЙ ОРИЕНТАЦИИ --- */
+        @media (min-width: 768px) and (max-width: 932px) and (orientation: landscape) and (min-height: 400px) {
+            .gallery-controls {
+                scale: 0.9;
+                top: 25px;
+                left: 25px;
+            }
+            
+            .gallery-close {
+                top: 25px;
+                right: 25px;
+                width: 45px;
+                height: 45px;
+            }
+            
+            .video-close {
+                top: 25px;
+                right: 25px;
+                width: 45px;
+                height: 45px;
+            }
+            
+            .gallery-viewport {
+                height: 80vh;
+                margin-top: 90px;
+            }
+        }

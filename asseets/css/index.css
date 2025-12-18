@@ -1,0 +1,187 @@
+/* --- 0. СБРОС И БАЗА --- */
+html, body {
+    margin: 0; padding: 0;
+    background-color: #111;
+    font-family: 'Manrope', sans-serif;
+    color: white;
+    cursor: default;
+    width: 100%;
+}
+
+/* !!! ЖЕСТКАЯ БЛОКИРОВКА СКРОЛЛА !!! */
+html.noscroll, body.noscroll {
+    overflow: hidden !important;
+    height: 100% !important;
+    position: fixed; /* Фиксируем страницу, чтобы она не дергалась */
+    width: 100%;
+}
+
+/* Скроллбар */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #111; }
+::-webkit-scrollbar-thumb { background-color: #FF5E00; border-radius: 4px; border: 2px solid #111; }
+
+.container {
+    width: 100%; padding: 0 60px; box-sizing: border-box;
+}
+
+/* --- 1. ВИДЕО (ИНТРО) --- */
+.video-container {
+    position: fixed; /* Всегда фиксировано */
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 100; /* Поверх всего в начале */
+    overflow: hidden;
+    transition: all 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+    background-color: #000;
+}
+
+/* Свернутое состояние */
+body.scrolled-state .video-container {
+    top: auto; bottom: 60px; left: 60px;
+    width: 40vw; height: 35vh;
+    z-index: 10; 
+}
+
+/* Развернутое состояние (при скролле) */
+body.expanded-state .video-container {
+    width: 100% !important; height: 100% !important; bottom: 0 !important; left: 0 !important;
+    z-index: 50; 
+}
+
+.bg-video {
+    width: 100%; height: 100%; object-fit: cover;
+    filter: brightness(0.6); transition: filter 1s ease;
+}
+body.scrolled-state .bg-video { filter: brightness(1); }
+body.expanded-state .bg-video { filter: brightness(0.8); }
+
+#videoClickArea { position: absolute; inset: 0; cursor: default; }
+
+/* --- 2. КОНТЕНТ --- */
+.content-section {
+    height: 100vh;
+    padding-top: 60px; 
+    display: flex; flex-direction: column; justify-content: flex-start; 
+    position: absolute; top: 0; left: 0; width: 100%;
+    z-index: 2; 
+    opacity: 0; pointer-events: none;
+    transition: opacity 1.5s ease 0.5s; 
+}
+
+body.scrolled-state .content-section {
+    opacity: 1; pointer-events: auto;
+}
+
+.header { display: flex; justify-content: space-between; align-items: flex-start; width: 100%; }
+.logo { font-size: clamp(3rem, 5vw, 6rem); font-weight: 800; line-height: 0.8; text-transform: uppercase; margin-left: -4px; }
+.logo span { display: block; font-size: 1.1rem; font-weight: 400; letter-spacing: 24px; margin-top: 15px; margin-left: 5px; color: rgba(255,255,255,0.65); }
+
+.nav { display: flex; gap: 40px; padding-top: 15px; }
+.nav a { color: white; text-decoration: none; font-weight: 600; text-transform: uppercase; font-size: 0.9rem; transition: 0.3s; letter-spacing: 1px; }
+.nav a:hover { color: #FF5E00; }
+
+.info-block { margin-top: 140px; max-width: 600px; }
+.info-text { font-size: 1rem; line-height: 1.6; text-transform: uppercase; color: rgba(255,255,255,0.9); letter-spacing: 0.5px; }
+.red-text { color: #FF5E00; font-weight: 700; margin-top: 40px; display: block; font-size: 1.25rem; line-height: 1.5; }
+.red-text a { color: inherit; text-decoration: none; transition: opacity 0.3s; }
+.red-text a:hover { opacity: 0.7; }
+
+/* --- 3. КУРСОР --- */
+.custom-cursor {
+    position: fixed; top: 0; left: 0; width: 200px; height: 200px;
+    pointer-events: none; z-index: 9999;
+    transform: translate(-50%, -50%);
+    display: flex; justify-content: center; align-items: center;
+    opacity: 0; transition: opacity 0.3s ease;
+    will-change: transform, top, left;
+}
+.cursor-backdrop {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: #FF5E00; border-radius: 50%;
+    box-shadow: 0 0 50px 15px rgba(255, 94, 0, 0.5);
+    z-index: 1; will-change: transform;
+}
+.cursor-text {
+    position: relative; z-index: 2; color: white; 
+    text-transform: uppercase; font-weight: 600; letter-spacing: 1px; font-size: 0.9rem;
+    will-change: transform;
+}
+.custom-cursor.visible { opacity: 1; }
+
+/* --- 4. КНОПКА ПРОПУСТИТЬ --- */
+.skip-btn-container {
+    position: fixed; bottom: 60px; left: 0; width: 100%;
+    display: flex; justify-content: center; z-index: 102;
+    transition: opacity 0.5s;
+}
+.skip-btn {
+    background-color: #FF5E00; color: white; padding: 15px 35px; border-radius: 50px;
+    text-transform: uppercase; font-weight: 600; font-size: 0.9rem;
+    cursor: pointer; border: none;
+    transition: transform 0.3s ease, background 0.3s;
+    box-shadow: 0 0 30px rgba(255, 94, 0, 0.6);
+}
+.skip-btn:hover { transform: scale(1.05); background-color: #e04e00; }
+.ui-hidden { opacity: 0; pointer-events: none; }
+
+/* --- 5. ПАНЕЛЬ "О НАС" --- */
+.about-panel {
+    position: fixed; top: 0; right: 0; width: 38%; height: 100%;
+    z-index: 2000; background-color: rgba(17, 17, 17, 0.95);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    transform: translateX(100%); transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    overflow-y: auto;
+}
+.about-panel.open { transform: translateX(0); }
+.panel-content { padding: 80px 40px 40px 40px; position: relative; }
+.close-btn { position: absolute; top: 30px; right: 30px; font-size: 2rem; cursor: pointer; color: #FF5E00; transition: opacity 0.3s; }
+.panel-title { font-size: 2.5rem; font-weight: 800; margin-bottom: 30px; text-transform: uppercase; }
+.panel-subtitle { font-size: 1.2rem; font-weight: 700; margin-top: 40px; margin-bottom: 10px; text-transform: uppercase; color: #FF5E00; }
+.section-text { font-size: 1rem; line-height: 1.6; margin-bottom: 20px; }
+.services-list { list-style: none; padding: 0; }
+.services-list li { margin-bottom: 10px; position: relative; padding-left: 20px; }
+.services-list li::before { content: "—"; position: absolute; left: 0; color: #FF5E00; }
+
+/* --- 6. РАСПОРКА ДЛЯ СКРОЛЛА --- */
+.scroll-spacer {
+    height: 150vh; width: 100%;
+    pointer-events: none; position: relative; z-index: -5;
+}
+
+/* --- 7. АДАПТАЦИЯ --- */
+@media (max-width: 1024px) {
+    .container { padding: 0 20px; }
+    .logo { font-size: 2.5rem; }
+    .logo span { font-size: 0.8rem; letter-spacing: 6px; margin-top: 5px; }
+    .nav { gap: 15px; padding-top: 5px; }
+    .nav a { font-size: 0.75rem; white-space: nowrap; }
+    
+    body.scrolled-state .video-container { 
+        width: calc(100% - 40px); left: 20px; bottom: 20px; height: 30vh;
+    }
+    .info-block { margin-top: 40px; max-width: 100%; }
+    .info-text { font-size: 0.9rem; }
+    
+    .custom-cursor { display: none !important; } 
+    #videoClickArea { cursor: pointer; } 
+    .about-panel { width: 100%; }
+
+    /* Отключаем видео на мобильных */
+    .bg-video { display: none !important; }
+    .video-container {
+        background-image: url('preview/020.jpg'); 
+        background-size: cover; background-position: center;
+        filter: brightness(0.6); 
+    }
+    body.scrolled-state .video-container { filter: brightness(1); }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+    .container { padding: 0 30px; }
+    .logo { font-size: 2rem; }
+    .logo span { font-size: 0.7rem; letter-spacing: 4px; }
+    .info-block { margin-top: 60px; max-width: 50%; padding-right: 20px; }
+    body.scrolled-state .video-container {
+        left: auto; right: 20px; bottom: 20px; width: 45vw; height: 70vh;
+    }
+}

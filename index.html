@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru" class="noscroll">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shanin Studio</title>
+    <!-- Шрифты -->
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- Стили -->
+    <link rel="stylesheet" href="asseets\css\index.css">
+</head>
+<body class="noscroll">
+
+    <!-- КУРСОР -->
+    <div id="cursor" class="custom-cursor">
+        <div class="cursor-backdrop"></div>
+        <span class="cursor-text">ЗВУК</span>
+    </div>
+
+    <!-- ВИДЕО -->
+    <div class="video-container" id="videoContainer">
+        <!-- Видео -->
+        <video class="bg-video" id="mainVideo" muted loop playsinline autoplay>
+            <source src="video/video-intro.mp4" type="video/mp4">
+        </video>
+        <!-- Зона клика -->
+        <div id="videoClickArea"></div>
+    </div>
+
+    <!-- КОНТЕНТ (Появляется после клика) -->
+    <section class="content-section">
+        <div class="container">
+            <header class="header">
+                <div class="logo">SHANIN<span>STUDIO</span></div>
+                <nav class="nav">
+                    <a href="portfolio.html">Портфолио</a>
+                    <a href="#" id="aboutBtn">О нас</a>
+                </nav>
+            </header>
+
+            <div class="info-block">
+                <div class="info-text">
+                    Анимация и видеомонтаж.<br>
+                    Визуализация фасадных решений.<br>
+                    3D моделирование и визуализация.<br> 
+                    Реализация масштабных проектов.<br>                  
+                    Призентационные и рекламные материалы
+                </div>
+                <div class="red-text">
+                    <a href="tel:+79174252850">+7 (917) 42-52-850</a><br>
+                    <a href="mailto:post@shaninstudio.ru">post@shaninstudio.ru</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- КНОПКА ПРОПУСТИТЬ -->
+    <div class="skip-btn-container" id="skipUi">
+        <button class="skip-btn" id="skipBtn">Пропустить</button>
+    </div>
+
+    <!-- ПАНЕЛЬ "О НАС" (ПОЛНЫЙ ТЕКСТ) -->
+    <div id="aboutPanel" class="about-panel">
+        <div class="panel-content">
+            <div class="close-btn" id="closePanelBtn">✕</div> 
+            
+            <h3 class="panel-title">О НАС</h3>
+
+            <p class="section-text">
+                Shanin Studio - профессиональная студия 3D-моделирования и визуализации, во главе которой стоит опытный специалист в данной области. 
+                Мы предлагаем нашим клиентам широкий спектр качественных услуг по созданию 3D визуализаций архитектурных проектов и других объектов недвижимости.
+            </p>
+            <p class="section-text">
+                В числе наших услуг: создание 3D моделей жилых комплексов и отдельных зданий, визуализация фасадных решений, разработка визуализаций для презентационных и рекламных материалов, а также создание уникальных 3D моделей по индивидуальному заказу.
+            </p>
+
+            <h3 class="panel-subtitle">НАШИ ПРИНЦИПЫ</h3>
+            <p class="section-text">
+                Наша студия гарантирует высокое качество услуг, соблюдение сроков выполнения работ и индивидуальный подход к каждому клиенту.
+                Наша цель - помочь клиентам реализовать свои идеи и сделать их проекты успешными.
+            </p>
+
+            <h3 class="panel-subtitle">УСЛУГИ СТУДИИ</h3>
+            <ul class="services-list">
+                <li>Разработка архитектурных концепций - создание цветовых и фасадных решений, а также элементов благоустройства.</li>
+                <li>Визуализация объектов недвижимости - создание реалистичных изображений зданий и территорий по проекту заказчика.</li>
+                <li>Анимация объектов недвижимости - разработка видеороликов, демонстрирующих объекты недвижимости в действии.</li>
+                <li>Съемка и монтаж видео - профессиональная работа с видеоматериалом, включая съемку, обработку и монтаж.</li>
+                <li>Брендинг и создание логотипов - разработка фирменного стиля и создание уникальных логотипов для компаний и проектов.</li>
+                <li>Создание сайтов - разработка и поддержка веб-сайтов для клиентов, включая дизайн, верстку и программирование.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- РАСПОРКА ДЛЯ СКРОЛЛА (Чтобы он появился после разблокировки) -->
+    <div class="scroll-spacer"></div>
+
+    <!-- СКРИПТ -->
+    <script src="asseets\js\index.js"></script>
+</body>
+</html>
